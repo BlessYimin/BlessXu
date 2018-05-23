@@ -18,9 +18,54 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
       <spring.version>4.0.6.RELEASE</spring.version>
+      <druid.version>1.0.18</druid.version>
+      <mybatis.version>3.2.1</mybatis.version>
   </properties>
 
+    <profiles>
+        <profile>
+            <!-- 本地开发环境 -->
+            <id>dev</id>
+            <properties>
+                <profiles.active>dev</profiles.active>
+                <profiles.environment>dev</profiles.environment>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!-- 测试环境 -->
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+                <profiles.environment>test</profiles.environment>
+            </properties>
+        </profile>
+        <profile>
+            <!-- 生产环境 -->
+            <id>pro</id>
+            <properties>
+                <profiles.active>pro</profiles.active>
+                <profiles.environment>dev</profiles.environment>
+            </properties>
+        </profile>
+    </profiles>
+
   <dependencies>
+      <!--mybatis依赖 -->
+      <dependency>
+          <groupId>org.mybatis</groupId>
+          <artifactId>mybatis</artifactId>
+          <version>${mybatis.version}</version>
+      </dependency>
+
+      <!-- mybatis/spring包 -->
+      <dependency>
+          <groupId>org.mybatis</groupId>
+          <artifactId>mybatis-spring</artifactId>
+          <version>1.2.0</version>
+      </dependency>
       <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
@@ -68,6 +113,17 @@
           <artifactId>javax.servlet-api</artifactId>
           <version>3.0.1</version>
           <scope>provided</scope>
+      </dependency>
+
+      <dependency>
+          <groupId>com.alibaba</groupId>
+          <artifactId>druid</artifactId>
+          <version>${druid.version}</version>
+      </dependency>
+      <dependency>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+          <version>5.1.38</version>
       </dependency>
   </dependencies>
 
@@ -123,8 +179,8 @@
                               <exclude>**/*.jsp</exclude>
                           </excludes>
                           <includes>
-                              <include>**/*.properties</include>
-                              <include>**/*.xml</include>
+                              <include>config/${profiles.environment}/*.properties</include>
+                              <include>config/${profiles.environment}/*.xml</include>
                           </includes>
                       </scanTargetPattern>
                   </scanTargetPatterns>
@@ -132,5 +188,6 @@
           </plugin>
       </plugins>
     </pluginManagement>
+
   </build>
 </project>
