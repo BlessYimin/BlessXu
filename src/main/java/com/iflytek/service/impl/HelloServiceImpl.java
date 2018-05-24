@@ -15,5 +15,6 @@ public class HelloServiceImpl implements HelloService {
     @Override
     public User getUser(String id) {
         return helloDao.getUser(id);
+//        return null;
     }
 }

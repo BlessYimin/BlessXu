@@ -46,8 +46,12 @@
     </bean>
 
 
-    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.iflytek.dao"></property>
-        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+    <bean class="tk.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.iflytek.dao"/>
+        <property name="properties">
+            <value>
+                mappers=tk.mybatis.mapper.common.Mapper
+            </value>
+        </property>
     </bean>
- </beans>
+</beans>
