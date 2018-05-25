@@ -15,7 +15,7 @@
     <!-- 指定spring bean 的配置文件所在目录 -->
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath:spring/applicationContext.xml</param-value>
+        <param-value>classpath:spring/applicationContext.xml,classpath:spring/spring-shiro.xml</param-value>
     </context-param>
 
 
