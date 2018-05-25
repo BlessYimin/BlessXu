@@ -6,6 +6,8 @@ import com.iflytek.service.HelloService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service("helloService")
 public class HelloServiceImpl implements HelloService {
 
@@ -15,6 +17,5 @@ public class HelloServiceImpl implements HelloService {
     @Override
     public User getUser(String id) {
         return helloDao.getUser(id);
-//        return null;
     }
 }
