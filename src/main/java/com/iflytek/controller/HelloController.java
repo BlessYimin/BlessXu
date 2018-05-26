@@ -9,11 +9,9 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -32,9 +30,9 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(String name, String password, Model model) {
+    public String login(@RequestBody User user,Model model) {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(name, password);
+        UsernamePasswordToken token = new UsernamePasswordToken(user.getName(), user.getPassword());
         try {
             subject.login(token);
         } catch (UnknownAccountException e) {
