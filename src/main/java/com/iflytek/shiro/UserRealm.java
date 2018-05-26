@@ -1,15 +1,22 @@
 package com.iflytek.shiro;
 
+import com.iflytek.model.User;
+import com.iflytek.service.HelloService;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class UserRealm extends AuthorizingRealm {
+
+    @Autowired
+    private HelloService helloService;
+
     /**
      * 授权
      * @param principalCollection
@@ -37,14 +44,9 @@ public class UserRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-        String userName = (String) authenticationToken.getPrincipal();
-        if ("".equals(userName)) {
-            throw new IncorrectCredentialsException();
-        }
-        else{
-
-        }
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(userName,"123456",this.getName());
+        UsernamePasswordToken usernamePasswordToken=(UsernamePasswordToken)authenticationToken;
+        User user=helloService.getUser(usernamePasswordToken.getUsername(),usernamePasswordToken.getPassword().toString());
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user.getName(),user.getPassword(),this.getName());
         return info;
     }
 }

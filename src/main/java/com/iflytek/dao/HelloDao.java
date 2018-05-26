@@ -10,4 +10,7 @@ import java.util.List;
 public interface HelloDao extends Mapper<User> {
     @Select("select * from User where id=#{id}")
     public User getUser(@Param("id") String id);
+
+    @Select("select * from User where name=#{name} and password=#{password}")
+    public User getUser(@Param("name") String name,@Param("password") String password);
 }

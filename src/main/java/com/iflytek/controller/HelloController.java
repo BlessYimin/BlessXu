@@ -12,7 +12,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping(value = "hello")
@@ -29,9 +32,9 @@ public class HelloController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(String userName, String passwd, Model model) {
+    public String login(String name, String password, Model model) {
         Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(userName, passwd);
+        UsernamePasswordToken token = new UsernamePasswordToken(name, password);
         try {
             subject.login(token);
         } catch (UnknownAccountException e) {
