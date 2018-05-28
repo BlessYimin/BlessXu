@@ -7,6 +7,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -29,6 +32,8 @@ public class HelloController {
         System.out.println(JSON.toJSONString(user));
     }
 
+    @RequiresRoles(value = {"user","admin"},logical = Logical.OR)
+    @RequiresPermissions("create")
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public String login(@RequestBody User user,Model model) {
         Subject subject = SecurityUtils.getSubject();

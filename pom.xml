@@ -18,6 +18,7 @@
     <maven.compiler.source>1.7</maven.compiler.source>
     <maven.compiler.target>1.7</maven.compiler.target>
       <spring.version>4.0.6.RELEASE</spring.version>
+      <shiro.version>1.4.0</shiro.version>
       <mybatis.version>3.2.1</mybatis.version>
   </properties>
 
@@ -52,16 +53,16 @@
     </profiles>
 
   <dependencies>
-      <!-- shiro -->
+      <!-- shiro权限配置 -->
       <dependency>
           <groupId>org.apache.shiro</groupId>
           <artifactId>shiro-core</artifactId>
-          <version>1.4.0</version>
+          <version>${shiro.version}</version>
       </dependency>
       <dependency>
           <groupId>org.apache.shiro</groupId>
           <artifactId>shiro-spring</artifactId>
-          <version>1.4.0</version>
+          <version>${shiro.version}</version>
       </dependency>
       <!--mybatis依赖 -->
       <dependency>
@@ -77,6 +78,7 @@
           <version>1.2.0</version>
       </dependency>
 
+      <!--通用mapper依赖包-->
       <dependency>
           <groupId>tk.mybatis</groupId>
           <artifactId>mapper</artifactId>
@@ -89,24 +91,38 @@
           <version>1.0</version>
       </dependency>
 
+      <!--跨域过滤器依赖-->
       <dependency>
+          <groupId>com.thetransactioncompany</groupId>
+          <artifactId>cors-filter</artifactId>
+          <version>1.7.1</version>
+      </dependency>
+      <dependency>
+          <groupId>com.thetransactioncompany</groupId>
+          <artifactId>java-property-utils</artifactId>
+          <version>1.9</version>
+      </dependency>
+
+<!--      <dependency>
           <groupId>com.github.abel533</groupId>
           <artifactId>mapper</artifactId>
           <version>2.3.4</version>
-      </dependency>
+      </dependency>-->
 
-      <!-- json -->
+      <!-- 阿里巴巴json -->
       <dependency>
           <groupId>com.alibaba</groupId>
           <artifactId>fastjson</artifactId>
           <version>1.2.3</version>
       </dependency>
+      <!-- lombok @Data注释-->
       <dependency>
           <groupId>org.projectlombok</groupId>
           <artifactId>lombok</artifactId>
           <version>1.16.20</version>
           <scope>provided</scope>
       </dependency>
+      <!--单元测试以来-->
       <dependency>
           <groupId>junit</groupId>
           <artifactId>junit</artifactId>
@@ -114,11 +130,22 @@
           <scope>test</scope>
       </dependency>
 
+      <!-- @RequestBody所需要的依赖-->
       <dependency>
           <groupId>com.fasterxml.jackson.core</groupId>
           <artifactId>jackson-core</artifactId>
           <version>2.9.4</version>
       </dependency>
+
+      <dependency>
+          <groupId>org.codehaus.jackson</groupId>
+          <artifactId>jackson-mapper-asl</artifactId>
+          <version>1.9.8</version>
+          <type>jar</type>
+          <scope>compile</scope>
+      </dependency>
+
+      <!--spring所需依赖-->
       <dependency>
           <groupId>org.springframework</groupId>
           <artifactId>spring-webmvc</artifactId>
@@ -180,6 +207,7 @@
           <scope>provided</scope>
       </dependency>
 
+      <!--c3p0资源池-->
       <dependency>
           <groupId>c3p0</groupId>
           <artifactId>c3p0</artifactId>
@@ -187,12 +215,14 @@
           <type>jar</type>
       </dependency>
 
+      <!-- 数据库mysql依赖-->
       <dependency>
           <groupId>mysql</groupId>
           <artifactId>mysql-connector-java</artifactId>
           <version>5.1.38</version>
       </dependency>
 
+      <!--文件上传所需依赖-->
       <dependency>
           <groupId>commons-fileupload</groupId>
           <artifactId>commons-fileupload</artifactId>
@@ -205,6 +235,7 @@
           <version>2.0.1</version>
       </dependency>
 
+      <!--日志打印-->
       <dependency>
           <groupId>log4j</groupId>
           <artifactId>log4j</artifactId>
@@ -262,6 +293,7 @@
           <artifactId>maven-deploy-plugin</artifactId>
           <version>2.8.2</version>
         </plugin>
+          <!--jetty服务器启动插件-->
           <plugin>
               <groupId>org.mortbay.jetty</groupId>
               <artifactId>maven-jetty-plugin</artifactId>
