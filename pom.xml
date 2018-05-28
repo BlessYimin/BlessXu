@@ -5,11 +5,11 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>iflytek</groupId>
-  <artifactId>consumer</artifactId>
+  <artifactId>BlessXu</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>war</packaging>
 
-  <name>consumer Maven Webapp</name>
+  <name>BlessXu Maven Webapp</name>
   <!-- FIXME change it to the project's website -->
   <url>http://www.example.com</url>
 
@@ -275,7 +275,7 @@
   </dependencies>
 
   <build>
-    <finalName>consumer</finalName>
+    <finalName>BlessXu</finalName>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
         <plugin>
