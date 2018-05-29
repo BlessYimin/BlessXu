@@ -15,4 +15,8 @@ public class Constants {
     public static final String SUCCESS_CODE="0";
 
     public static final String ERROR_CODE="1";
+
+    public static final String USERPWD_ERROR="密码错误";
+
+    public static final String VERIFY_ERROR="验证码错误";
 }
