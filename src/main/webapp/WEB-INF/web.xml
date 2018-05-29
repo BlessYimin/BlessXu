@@ -37,6 +37,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--权限过滤器-->
     <filter>
         <filter-name>shiroFilter</filter-name>
         <filter-class>org.springframework.web.filter.DelegatingFilterProxy
@@ -51,6 +52,7 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
+    <!--跨域过滤器-->
     <filter>
         <filter-name>cors</filter-name>
         <filter-class>com.iflytek.filters.CrossFilter</filter-class>
@@ -80,20 +82,13 @@
     <listener>
         <listener-class>org.apache.logging.log4j.web.Log4jServletContextListener</listener-class>
     </listener>
+
     <!-- log4j配置 -->
-    <!--<context-param>-->
-        <!--<param-name>log4jConfigLocation</param-name>-->
-        <!--<param-value>classpath:spring/log4j.properties</param-value>-->
-    <!--</context-param>-->
     <!--<context-param>-->
         <!--<description>日志配置文件的路径</description>-->
         <!--<param-name>log4j.configurationFile</param-name>-->
         <!--<param-value>spring/log4j2.xml</param-value>-->
     <!--</context-param>-->
-    <context-param>
-        <param-name>webAppRootKey</param-name>
-        <param-value>SLSaleSystem.root</param-value>
-    </context-param>
     <filter>
         <filter-name>log4jServletFilter</filter-name>
         <filter-class>org.apache.logging.log4j.web.Log4jServletFilter</filter-class>
@@ -107,5 +102,19 @@
         <dispatcher>ERROR</dispatcher>
     </filter-mapping>
     <!-- log4j2-end -->
+
+    <!-- 老版本log4j配置 -->
+<!--    <context-param>
+        <param-name>log4jConfigLocation</param-name>
+        <param-value>classpath:spring/log4j.properties</param-value>
+    </context-param>
+    <context-param>
+        <param-name>webAppRootKey</param-name>
+        <param-value>SLSaleSystem.root</param-value>
+    </context-param>
+    &lt;!&ndash; spring加载log4j的监听 &ndash;&gt;
+    <listener>
+        <listener-class>org.springframework.web.util.Log4jConfigListener</listener-class>
+    </listener>-->
 
 </web-app>

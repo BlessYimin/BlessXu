@@ -1,8 +1,10 @@
 package com.iflytek.controller;
 
 import com.alibaba.fastjson.JSON;
+import com.iflytek.exception.ControllerException;
 import com.iflytek.model.User;
 import com.iflytek.service.HelloService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -12,11 +14,13 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "hello")
@@ -26,10 +30,12 @@ public class HelloController {
     private HelloService helloService;
 
     @RequestMapping(value = "world")
-    public void world(){
+    @ResponseBody
+    public User world(HttpServletResponse response){
         System.out.println("hello world!");
         User user=helloService.getUser("1");
-        System.out.println(JSON.toJSONString(user));
+        return user;
+//        System.out.println(JSON.toJSONString(user));
     }
 
     @RequiresRoles(value = {"user","admin"},logical = Logical.OR)
@@ -50,6 +56,19 @@ public class HelloController {
             return "login";
         }
         return "index";
+    }
+
+    @RequestMapping(value = "exception")
+    @ResponseBody
+    public void exception(){
+        try {
+            List<String> list=new ArrayList<>();
+            String temp=list.get(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new ControllerException("0","错误");
+        }
+
     }
 
 }
