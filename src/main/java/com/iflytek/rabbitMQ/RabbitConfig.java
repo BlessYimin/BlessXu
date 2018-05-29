@@ -21,7 +21,7 @@ import org.springframework.context.annotation.Scope;
 public class RabbitConfig
 {
     @Value("${spring.rabbitmq.host}")
-    private String host;
+    public String host;
 
     @Value("${spring.rabbitmq.port}")
     private String port;

@@ -7,6 +7,7 @@
  **/
 
 import com.alibaba.fastjson.JSON;
+import com.iflytek.rabbitMQ.RabbitConfig;
 import com.iflytek.rabbitMQ.RabbitSender;
 import com.iflytek.service.HelloService;
 import org.junit.Test;
@@ -21,6 +22,12 @@ public class test{
 
     @Autowired
     private HelloService helloService;
+
+    @Autowired
+    private RabbitConfig rabbitConfig;
+
+    @Autowired
+    private RabbitSender rabbitSender;
     @Test
     public void testUser(){
         System.out.println(JSON.toJSONString(helloService.getUser("1")));
@@ -28,7 +35,11 @@ public class test{
 
     @Test
     public void rabbitTest(){
-        RabbitSender rabbitSender=new RabbitSender();
         rabbitSender.sendMsg("bless");
+    }
+
+    @Test
+    public void configTest(){
+        System.out.println(rabbitConfig.host);
     }
 }

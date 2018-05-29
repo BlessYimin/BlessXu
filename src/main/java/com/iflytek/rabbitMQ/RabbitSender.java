@@ -25,8 +25,7 @@ public class RabbitSender implements RabbitTemplate.ConfirmCallback
     public void sendMsg(String content) {
         CorrelationData correlationId = new CorrelationData(UUID.randomUUID().toString());
         this.rabbitTemplate.setConfirmCallback(this); //rabbitTemplate如果为单例的话，那回调就是最后设置的内容
-        this.rabbitTemplate.convertAndSend(RabbitConstant.EXCHANGE_NAME,
-                RabbitConstant.ROUTING_KEY, content, correlationId);
+        this.rabbitTemplate.convertAndSend(RabbitConstant.EXCHANGE_NAME,RabbitConstant.ROUTING_KEY, content, correlationId);
     }
 
     //回调
