@@ -7,6 +7,7 @@
  **/
 
 import com.alibaba.fastjson.JSON;
+import com.iflytek.rabbitMQ.RabbitSender;
 import com.iflytek.service.HelloService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,5 +24,11 @@ public class test{
     @Test
     public void testUser(){
         System.out.println(JSON.toJSONString(helloService.getUser("1")));
+    }
+
+    @Test
+    public void rabbitTest(){
+        RabbitSender rabbitSender=new RabbitSender();
+        rabbitSender.sendMsg("bless");
     }
 }

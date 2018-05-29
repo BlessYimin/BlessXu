@@ -1,4 +1,4 @@
-package com.iflytek.RabbitMQ;
+package com.iflytek.rabbitMQ;
 
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;

@@ -1,4 +1,4 @@
-package com.iflytek.RabbitMQ;
+package com.iflytek.rabbitMQ;
 
 import com.iflytek.constants.RabbitConstant;
 import org.springframework.amqp.rabbit.annotation.RabbitHandler;
