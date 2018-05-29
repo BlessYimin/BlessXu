@@ -1,10 +1,9 @@
 package com.iflytek.controller;
 
-import com.alibaba.fastjson.JSON;
+import com.iflytek.constants.Constants;
 import com.iflytek.exception.ControllerException;
 import com.iflytek.model.User;
 import com.iflytek.service.HelloService;
-import org.apache.commons.lang3.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
@@ -66,7 +65,7 @@ public class HelloController {
             String temp=list.get(0);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new ControllerException("0","错误");
+            throw new ControllerException(Constants.ERROR_CODE,"错误");
         }
 
     }
