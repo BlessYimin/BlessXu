@@ -35,8 +35,8 @@ public class RabbitConfig
     @Value("${spring.rabbitmq.publisher-confirms}")
     private Boolean publisherConfirms;
 
-//    @Value("${spring.rabbitmq.virtual-host}")
-//    private String virtualHost;
+    @Value("${spring.rabbitmq.virtual-host}")
+    private String virtualHost;
 
     //创建工厂连接
     @Bean
@@ -45,14 +45,14 @@ public class RabbitConfig
         connectionFactory.setAddresses(this.host);
         connectionFactory.setUsername(this.username);
         connectionFactory.setPassword(this.password);
-//        connectionFactory.setVirtualHost(this.virtualHost);
+        connectionFactory.setVirtualHost(this.virtualHost);
         connectionFactory.setPublisherConfirms(this.publisherConfirms); //必须要设置
         return connectionFactory;
     }
 
     //rabbitmq的模板配置
     @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) //必须是prototype类型
+//    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE) //必须是prototype类型
     public RabbitTemplate rabbitTemplate() {
         RabbitTemplate template = new RabbitTemplate(this.connectionFactory());
         //template.setConfirmCallback(); 设置消息确认

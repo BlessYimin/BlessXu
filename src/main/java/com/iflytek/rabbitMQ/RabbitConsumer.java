@@ -14,11 +14,11 @@ import org.springframework.stereotype.Component;
  **/
 
 @Component
+@RabbitListener(queues = RabbitConstant.QUEUE_NAME)
 public class RabbitConsumer {
 
     @RabbitHandler
-    @RabbitListener(queues = RabbitConstant.QUEUE_NAME)
-    public void process(String hello) {
-        System.out.println("Receiver1  : " + hello);
+    public void onMessage(String message) {
+        System.out.println("Receiver1  : " + message);
     }
 }
