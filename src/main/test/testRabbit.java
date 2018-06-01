@@ -1,3 +1,4 @@
+import com.iflytek.rabbitMQ.RabbitSender;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.amqp.core.AmqpTemplate;
@@ -20,13 +21,14 @@ import java.util.Map;
  **/
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations={"classpath:spring/spring-mvc.xml","classpath:spring/applicationContext.xml","classpath:spring/rabbitMQ.xml"})
+@ContextConfiguration(locations={"classpath:spring/spring-mvc.xml","classpath:spring/applicationContext.xml"})
 public class testRabbit {
 
 
+    @Autowired
+    private RabbitSender rabbitSender;
     @Test
     public void send() throws Exception{
-        System.out.println("");
-//        amqpTemplate.convertAndSend("com.iflytek", "bless");
+        rabbitSender.sendMsg("bless");
     }
 }

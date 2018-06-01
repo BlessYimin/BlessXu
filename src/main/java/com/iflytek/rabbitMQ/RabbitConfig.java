@@ -1,8 +1,11 @@
 package com.iflytek.rabbitMQ;
 
+import com.iflytek.constants.RabbitConstant;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
+import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
+import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Bean;
@@ -58,5 +61,15 @@ public class RabbitConfig
         //template.setConfirmCallback(); 设置消息确认
         //template.setReturnCallback();
         return template;
+    }
+
+    @Bean
+    public SimpleMessageListenerContainer listenerContainer() {
+        SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory());
+        container.setQueueNames(RabbitConstant.QUEUE_NAME);
+        container.setMessageListener(new MessageListenerAdapter(
+                new RabbitConsumer()));
+        return container;
     }
 }

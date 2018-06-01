@@ -8,33 +8,54 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context-3.1.xsd
         http://www.springframework.org/schema/rabbit
-        http://www.springframework.org/schema/rabbit/spring-rabbit-1.3.xsd">
+        http://www.springframework.org/schema/rabbit/spring-rabbit-3.1.xsd">
 
     <context:property-placeholder location="classpath:config/*/*.properties" />
 
     <!--配置connection-factory，指定连接rabbit server参数-->
-    <rabbit:connection-factory id="connectionFactory" host="${mq.host}" username="${mq.username}" password="${mq.password}" port="${mq.port}" />
+    <rabbit:connection-factory id="connectionFactory" host="${mq.host}" username="${mq.username}" password="${mq.password}" port="${mq.port}" publisher-confirms="${spring.rabbitmq.publisher-confirms}" />
 
-    <!--通过指定下面的admin信息，当前producer中的exchange和queue会在rabbitmq服务器上自动生成-->
-    <rabbit:admin connection-factory="connectionFactory"/>
+    <rabbit:admin connection-factory="connectionFactory" />
 
-    <!--定义queue-->
-    <rabbit:queue id="iflytek_queue" name="iflytek_queue" durable="true" auto-delete="false" exclusive="false"/>
+    <!-- json转换器，消息可以自动根据转换器转换格式，不配置时默认为java序列化，可以自行配置 -->
+    <bean id="messageConverter" class="org.springframework.amqp.support.converter.Jackson2JsonMessageConverter" />
 
-    <!-- 定义direct exchange，绑定com.iflytek -->
-    <rabbit:direct-exchange name="iflytek.exchange" durable="true" auto-delete="false">
+    <!-- 将queue和routingKey进行绑定 -->
+    <rabbit:queue name="iflytek.queue" />
+    <!-- direct方式：根据routingKey将消息发送到所有绑定的queue中 -->
+    <rabbit:direct-exchange name="iflytek.exchange">
         <rabbit:bindings>
-            <rabbit:binding queue="iflytek_queue" key="iflytek.key"></rabbit:binding>
+            <rabbit:binding queue="iflytek.queue" key="iflytek.key" />
         </rabbit:bindings>
     </rabbit:direct-exchange>
 
-    <!--定义rabbit template用于数据的接收和发送-->
-    <rabbit:template id="rabbitTemplate" connection-factory="connectionFactory" exchange="iflytek.exchange" />
+    <bean id="retryTemplate" class="org.springframework.retry.support.RetryTemplate">
+        <property name="backOffPolicy">
+            <bean class="org.springframework.retry.backoff.ExponentialBackOffPolicy">
+                <property name="initialInterval" value="500" />
+                <property name="multiplier" value="10.0" />
+                <property name="maxInterval" value="10000" />
+            </bean>
+        </property>
+    </bean>
 
-    <!-- 接受 -->
-    <bean id="messageReceiver" class="com.iflytek.rabbitMQ.RabbitConsumer"></bean>
-    <rabbit:listener-container connection-factory="connectionFactory">
-        <rabbit:listener queues="iflytek_queue" ref="messageReceiver"/>
-    </rabbit:listener-container>
+    <rabbit:template id="template" message-converter="messageConverter"
+                     connection-factory="connectionFactory" reply-timeout="2000" retry-template="retryTemplate"
+                     exchange="iflytek.exchange"  />
+
+    <!-- exchange为direct模式 -->
+    <rabbit:template id="template" message-converter="messageConverter"
+                     connection-factory="connectionFactory" reply-timeout="2000" retry-template="retryTemplate"
+                     exchange="${iflytek.exchange}"  />
+
+    <rabbit:annotation-driven/>
+
+    <bean id="rabbitListenerContainerFactory"
+          class="org.springframework.amqp.rabbit.config.SimpleRabbitListenerContainerFactory">
+        <property name="messageConverter" ref="messageConverter" />
+        <property name="connectionFactory" ref="connectionFactory" />
+        <property name="concurrentConsumers" value="3" />
+        <property name="maxConcurrentConsumers" value="10" />
+    </bean>
 
 </beans>
